@@ -1,7 +1,7 @@
 #include <iostream>
 #include <ostream>
 
-#include "chopstick.h"
+#include "../include/chopstick.h"
 
 void Chopstick::take_fork(const int philosopher_id) {
   mutex_.lock();

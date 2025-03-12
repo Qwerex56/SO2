@@ -4,7 +4,8 @@
 #include <mutex>
 #include <thread>
 
-#include "chopstick.h"
+#include "../include/chopstick.h"
+#include "PhilosopherStatus.h"
 
 class Philosopher {
  public:
@@ -15,16 +16,13 @@ class Philosopher {
         right_fork_(right_fork),
         cout_mutex_(mutex) {}
 
-  void work();
-
-  void dine() const;
-  void think() const;
-
-  bool chopsticks_available() const;
+  void start();
+  void stop();
 
  private:
   int id_ = -1;
   bool stuffed_ = false;
+  PhilosopherStatus status_ = PhilosopherStatus::kWaiting;
 
   Chopstick *left_fork_ = nullptr;
   Chopstick *right_fork_ = nullptr;
@@ -32,9 +30,13 @@ class Philosopher {
   std::thread thread_;
   std::mutex &cout_mutex_;
 
+  static std::chrono::seconds rand_time(int min = 1, int max = 4);
 
-
-  static int rand_time();
+  void thread_worker();
+  void dine();
+  void think();
+  void print_status() const;
+  [[nodiscard]] bool chopsticks_available() const;
 };
 
 #endif

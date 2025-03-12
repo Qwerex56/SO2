@@ -10,7 +10,7 @@ class Chopstick {
   void take_fork(int philosopher_id);
   void put_fork(int philosopher_id);
 
-  bool get_is_on_table() const;
+  [[nodiscard]] bool get_is_on_table() const;
  private:
   bool is_on_table_ = true;
   std::mutex mutex_{};

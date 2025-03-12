@@ -1,44 +1,74 @@
-#include "philosopher.h"
+#include "../include/philosopher.h"
 
 #include <iostream>
 #include <random>
 
-void Philosopher::work() {
-  int i = 0;
-  while (i++ < 2) {
-    think();
-    // while (!chopsticks_available()) {
-    // }
-    dine();
-  }
-}
-
-void Philosopher::dine() const {
+void Philosopher::dine() {
   left_fork_->take_fork(id_);
   right_fork_->take_fork(id_);
 
-  std::cout << "Philosopher " << id_ << " is eating!\n";
-  std::this_thread::sleep_for(std::chrono::seconds(rand_time()));
-  std::cout << "Philosopher " << id_ << " finished eating!\n";
+  status_ = PhilosopherStatus::kEating;
+  print_status();
+  std::this_thread::sleep_for(rand_time());  // Simulate heavy work
 
   left_fork_->put_fork(id_);
   right_fork_->put_fork(id_);
 }
-void Philosopher::think() const {
-  {
-    std::cout << "Philosopher " << id_ << " is thinking!\n";
+
+void Philosopher::think() {
+  if (status_ == PhilosopherStatus::kWaiting) {
+    print_status();
+    return;
   }
-  std::this_thread::sleep_for(std::chrono::seconds(rand_time()));
+
+  status_ = PhilosopherStatus::kThinking;
+  print_status();
+  std::this_thread::sleep_for(rand_time());
 }
 
 bool Philosopher::chopsticks_available() const {
   return left_fork_->get_is_on_table() && right_fork_->get_is_on_table();
 }
 
-int Philosopher::rand_time() {
+void Philosopher::start() {
+  thread_ = std::thread(&Philosopher::dine, this);
+  thread_.join();
+}
+
+void Philosopher::stop() { stuffed_ = true; }
+
+void Philosopher::print_status() const {
+  std::lock_guard lk_cout{cout_mutex_};
+  auto status = "";
+  switch (status_) {
+    case PhilosopherStatus::kThinking:
+      status = "thinking";
+      break;
+    case PhilosopherStatus::kEating:
+      status = "eating";
+      break;
+    case PhilosopherStatus::kWaiting:
+      status = "waiting";
+      break;
+  }
+  std::cout << "Philosopher " << id_ << ": " << status << "!\n";
+}
+
+std::chrono::seconds Philosopher::rand_time(const int min, const int max) {
   std::random_device rd{};
   std::mt19937 gen{rd()};
-  std::uniform_int_distribution<> dist_int{1, 4};
+  std::uniform_int_distribution dist_int{min, max};
 
-  return dist_int(gen);
+  return std::chrono::seconds(dist_int(gen));
+}
+
+void Philosopher::thread_worker() {
+  while (!stuffed_) {
+    think();
+    if (!chopsticks_available()) {
+      status_ = PhilosopherStatus::kWaiting;
+      continue;
+    }
+    dine();
+  }
 }

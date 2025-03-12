@@ -1,4 +1,4 @@
-#include "src/philosopher.h"
+#include "include/philosopher.h"
 
 #define N 4
 
