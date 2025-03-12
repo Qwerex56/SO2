@@ -1,21 +1,25 @@
+//
+// Copyright 2025 Qwerex
+//
+
 #include "include/philosopher.h"
 
-#define N 4
+#define N 6
+
+std::mutex global_cout_mutex;
 
 Philosopher *create_philosophers(int count, Chopstick *forks);
 
 int main() {
   auto *forks = new Chopstick[N];
   auto *philosophers = create_philosophers(N, forks);
-  auto *threads = new std::thread[N];
 
-  for (auto i = 0; i < N; ++i) {
-    threads[i] =
-        std::thread([philosophers, i] -> void { philosophers[i].work(); });
+  for (int i = 0; i < N; i++) {
+    philosophers[i].start();
   }
 
-  for (auto i = 0; i < N; ++i) {
-    threads[i].join();
+  for (int i = 0; i < N; i++) {
+    philosophers[i].join();
   }
 
   delete philosophers;
@@ -27,8 +31,8 @@ Philosopher *create_philosophers(const int count, Chopstick *forks) {
   auto *philosophers = new Philosopher[count];
 
   for (auto i = 0; i < count; ++i) {
-    philosophers[i] =
-        Philosopher{i, &forks[i % count], &forks[(i + 1) % count]};
+    philosophers[i] = Philosopher{i, &forks[i % count], &forks[(i + 1) % count],
+                                  &global_cout_mutex};
   }
 
   return philosophers;

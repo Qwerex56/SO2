@@ -1,9 +1,9 @@
 //
-// Created by qwere on 12.03.2025.
+// Copyright 2025 Qwerex
 //
 
-#ifndef PHILOSOPHERSTATUS_H
-#define PHILOSOPHERSTATUS_H
+#ifndef DINING_PHILOSOPHERS_INCLUDE_PHILOSOPHERSTATUS_H_
+#define DINING_PHILOSOPHERS_INCLUDE_PHILOSOPHERSTATUS_H_
 
 enum class PhilosopherStatus {
   kThinking,
@@ -11,4 +11,4 @@ enum class PhilosopherStatus {
   kWaiting,
 };
 
-#endif  // PHILOSOPHERSTATUS_H
+#endif  // DINING_PHILOSOPHERS_INCLUDE_PHILOSOPHERSTATUS_H_

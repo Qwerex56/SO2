@@ -1,3 +1,7 @@
+//
+// Copyright 2025 Qwerex
+//
+
 #include "../include/philosopher.h"
 
 #include <iostream>
@@ -17,7 +21,7 @@ void Philosopher::dine() {
 
 void Philosopher::think() {
   if (status_ == PhilosopherStatus::kWaiting) {
-    print_status();
+    // print_status();
     return;
   }
 
@@ -31,14 +35,13 @@ bool Philosopher::chopsticks_available() const {
 }
 
 void Philosopher::start() {
-  thread_ = std::thread(&Philosopher::dine, this);
-  thread_.join();
+  thread_ = std::thread(&Philosopher::thread_worker, this);
+  // thread_.join();
 }
 
 void Philosopher::stop() { stuffed_ = true; }
 
 void Philosopher::print_status() const {
-  std::lock_guard lk_cout{cout_mutex_};
   auto status = "";
   switch (status_) {
     case PhilosopherStatus::kThinking:
@@ -51,7 +54,11 @@ void Philosopher::print_status() const {
       status = "waiting";
       break;
   }
-  std::cout << "Philosopher " << id_ << ": " << status << "!\n";
+
+  {
+    std::lock_guard lk_cout{(*cout_mutex_)};
+    std::cout << "Philosopher " << id_ << ": " << status << "!\n";
+  }
 }
 
 std::chrono::seconds Philosopher::rand_time(const int min, const int max) {

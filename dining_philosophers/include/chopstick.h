@@ -1,5 +1,10 @@
-#ifndef CHOPSTICK_H
-#define CHOPSTICK_H
+//
+// Copyright 2025 Qwerex
+//
+
+
+#ifndef DINING_PHILOSOPHERS_INCLUDE_CHOPSTICK_H_
+#define DINING_PHILOSOPHERS_INCLUDE_CHOPSTICK_H_
 
 #include <mutex>
 
@@ -16,4 +21,4 @@ class Chopstick {
   std::mutex mutex_{};
 };
 
-#endif
+#endif  // DINING_PHILOSOPHERS_INCLUDE_CHOPSTICK_H_

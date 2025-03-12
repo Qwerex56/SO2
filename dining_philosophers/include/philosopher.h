@@ -1,5 +1,9 @@
-#ifndef PHILOSOPHER_H
-#define PHILOSOPHER_H
+//
+// Copyright 2025 Qwerex
+//
+
+#ifndef DINING_PHILOSOPHERS_INCLUDE_PHILOSOPHER_H_
+#define DINING_PHILOSOPHERS_INCLUDE_PHILOSOPHER_H_
 
 #include <mutex>
 #include <thread>
@@ -9,8 +13,9 @@
 
 class Philosopher {
  public:
+  Philosopher() = default;
   explicit Philosopher(const int id, Chopstick *left_fork,
-                       Chopstick *right_fork, std::mutex &mutex)
+                       Chopstick *right_fork, std::mutex *mutex)
       : id_(id),
         left_fork_(left_fork),
         right_fork_(right_fork),
@@ -18,6 +23,10 @@ class Philosopher {
 
   void start();
   void stop();
+
+  void join() {
+    thread_.join();
+  }
 
  private:
   int id_ = -1;
@@ -28,7 +37,7 @@ class Philosopher {
   Chopstick *right_fork_ = nullptr;
 
   std::thread thread_;
-  std::mutex &cout_mutex_;
+  std::mutex *cout_mutex_ = nullptr;
 
   static std::chrono::seconds rand_time(int min = 1, int max = 4);
 
@@ -39,4 +48,4 @@ class Philosopher {
   [[nodiscard]] bool chopsticks_available() const;
 };
 
-#endif
+#endif  // DINING_PHILOSOPHERS_INCLUDE_PHILOSOPHER_H_
