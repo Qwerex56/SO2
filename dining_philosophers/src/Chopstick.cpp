@@ -2,10 +2,10 @@
 // Copyright 2025 Qwerex
 //
 
+#include "../include/Chopstick.h"
+
 #include <iostream>
 #include <ostream>
-
-#include "../include/chopstick.h"
 
 void Chopstick::take_fork(const int philosopher_id) {
   mutex_.lock();

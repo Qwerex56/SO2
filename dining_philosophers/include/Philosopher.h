@@ -8,7 +8,7 @@
 #include <mutex>
 #include <thread>
 
-#include "../include/chopstick.h"
+#include "../include/Chopstick.h"
 #include "PhilosopherStatus.h"
 
 class Philosopher {
@@ -24,9 +24,9 @@ class Philosopher {
   void start();
   void stop();
 
-  void join() {
-    thread_.join();
-  }
+  void join() { thread_.join(); }
+
+  PhilosopherStatus get_status() const;
 
  private:
   int id_ = -1;

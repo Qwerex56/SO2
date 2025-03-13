@@ -2,7 +2,7 @@
 // Copyright 2025 Qwerex
 //
 
-#include "../include/philosopher.h"
+#include "../include/Philosopher.h"
 
 #include <iostream>
 #include <random>
@@ -40,6 +40,10 @@ void Philosopher::start() {
 }
 
 void Philosopher::stop() { stuffed_ = true; }
+
+PhilosopherStatus Philosopher::get_status() const {
+  return this->status_;
+}
 
 void Philosopher::print_status() const {
   auto status = "";
