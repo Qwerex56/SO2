@@ -33,7 +33,7 @@ int main(int argc, char* argv[]) {
   auto window = sf::RenderWindow(sf::VideoMode{{800, 600}}, "Philosophers");
 
   DiningPhilosophers table{&global_cout_mutex, phil_count};
-  DiningPhilosophersVisualizer visualizer{window, phil_count};
+  DiningPhilosophersVisualizer visualizer{&window, phil_count};
 
   table.init_threads();
 
