@@ -1,9 +1,9 @@
 //
-// Created by qwere on 12.03.2025.
+// Copyright 2025 Qwerex
 //
 
-#ifndef DININGPHILOSOPHERS_H
-#define DININGPHILOSOPHERS_H
+#ifndef DINING_PHILOSOPHERS_INCLUDE_DININGPHILOSOPHERS_H_
+#define DINING_PHILOSOPHERS_INCLUDE_DININGPHILOSOPHERS_H_
 
 #include <vector>
 
@@ -30,4 +30,4 @@ class DiningPhilosophers {
   void generate_philosophers(int count, std::mutex *global_mutex);
 };
 
-#endif  // DININGPHILOSOPHERS_H
+#endif  // DINING_PHILOSOPHERS_INCLUDE_DININGPHILOSOPHERS_H_

@@ -1,8 +1,11 @@
 //
-// Created by qwere on 12.03.2025.
+// Copyright 2025 Qwerex
 //
 
+#include <vector>
+
 #include "../include/DiningPhilosophers.h"
+
 DiningPhilosophers::DiningPhilosophers(std::mutex *global_lock,
                                        const int resolution) {
   generate_chopsticks(resolution);

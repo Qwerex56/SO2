@@ -12,17 +12,21 @@
 std::mutex global_cout_mutex;
 
 int main(int argc, char* argv[]) {
+  Philosopher().set_print_to_console(true);
+
+  for (int i = 1; i < argc; ++i) {
+    if (std::strcmp(argv[i], "--no-terminal-out") == 0) {
+      Philosopher::set_print_to_console(false);
+    }
+  }
+
   if (argc < 2) {
-    std::cerr << "Usage: " << argv[0] << " <integer_value>" << std::endl;
+    std::cerr << "Usage: " << argv[0] << " <integer_value> [--no-terminal_out]"
+              << std::endl;
     return 1;
   }
 
   const int phil_count = std::atoi(argv[1]);
-
-  if (phil_count < 2) {
-    std::cerr << "Philosopher count must be greater or equal to 2" << std::endl;
-    return 1;
-  }
 
   std::cout << "Philosopher count: " << phil_count << std::endl;
 

@@ -1,9 +1,9 @@
 //
-// Created by qwere on 12.03.2025.
+// Copyright 2025 Qwerex
 //
 
-#ifndef DININGPHILOSOPHERSVISUALIZER_H
-#define DININGPHILOSOPHERSVISUALIZER_H
+#ifndef DINING_PHILOSOPHERS_INCLUDE_DININGPHILOSOPHERSVISUALIZER_H_
+#define DINING_PHILOSOPHERS_INCLUDE_DININGPHILOSOPHERSVISUALIZER_H_
 #include <vector>
 
 #include "PhilosopherStatus.h"
@@ -13,13 +13,13 @@
 class DiningPhilosophersVisualizer {
  public:
   DiningPhilosophersVisualizer() = delete;
-  explicit DiningPhilosophersVisualizer(sf::RenderWindow &window,
+  explicit DiningPhilosophersVisualizer(sf::RenderWindow *window,
                                         int resolution);
 
   void draw(const std::vector<PhilosopherStatus> &philosopher_statuses) const;
 
  private:
-  sf::RenderWindow &window_;
+  sf::RenderWindow *window_;
   sf::Vector2f philosopher_size_{};
   std::vector<sf::Vector2f> philosophers_positions_{};
 
@@ -29,4 +29,4 @@ class DiningPhilosophersVisualizer {
   std::vector<sf::Vector2f> generate_philosopher_positions(int count) const;
 };
 
-#endif  // DININGPHILOSOPHERSVISUALIZER_H
+#endif  // DINING_PHILOSOPHERS_INCLUDE_DININGPHILOSOPHERSVISUALIZER_H_

@@ -1,15 +1,17 @@
 //
-// Created by qwere on 12.03.2025.
+// Copyright 2025 Qwerex
 //
 
 #include "../include/DiningPhilosophersVisualizer.h"
 
 #include <math.h>
 
+#include <vector>
+
 #include "SFML/Graphics/RectangleShape.hpp"
 
 DiningPhilosophersVisualizer::DiningPhilosophersVisualizer(
-    sf::RenderWindow& window, const int resolution)
+    sf::RenderWindow* window, const int resolution)
     : window_(window) {
   philosopher_size_ = generate_philosopher_size(resolution);
   philosophers_positions_ = generate_philosopher_positions(resolution);
@@ -37,26 +39,26 @@ void DiningPhilosophersVisualizer::draw(
         break;
     }
 
-    window_.draw(phil);
+    window_->draw(phil);
   }
 }
 
 sf::Vector2f DiningPhilosophersVisualizer::generate_philosopher_size(
     int const count) const {
-  auto const w_size = window_.getSize();
+  auto const w_size = window_->getSize();
 
   float const radius = get_radius(w_size);
+
   return sf::Vector2f{radius / count, radius / count};
 }
 
-float DiningPhilosophersVisualizer::get_radius(
-    sf::Vector2u const w_size) {
+float DiningPhilosophersVisualizer::get_radius(sf::Vector2u const w_size) {
   return (w_size.y - w_size.y * 0.15f) / 2.0f;
 }
 std::vector<sf::Vector2f>
 DiningPhilosophersVisualizer::generate_philosopher_positions(
     const int count) const {
-  auto const w_size = window_.getSize();
+  auto const w_size = window_->getSize();
 
   float const radius = get_radius(w_size);
   constexpr float pi = 3.14159265f;

@@ -28,7 +28,11 @@ class Philosopher {
 
   PhilosopherStatus get_status() const;
 
+  static void set_print_to_console(bool print_to_console);
+
  private:
+  static bool print_to_console_;
+
   int id_ = -1;
   bool stuffed_ = false;
   PhilosopherStatus status_ = PhilosopherStatus::kWaiting;

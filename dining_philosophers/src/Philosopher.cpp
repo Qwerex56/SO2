@@ -7,6 +7,8 @@
 #include <iostream>
 #include <random>
 
+bool Philosopher::print_to_console_ = true;
+
 void Philosopher::dine() {
   left_fork_->take_fork(id_);
   right_fork_->take_fork(id_);
@@ -36,16 +38,21 @@ bool Philosopher::chopsticks_available() const {
 
 void Philosopher::start() {
   thread_ = std::thread(&Philosopher::thread_worker, this);
-  // thread_.join();
 }
 
 void Philosopher::stop() { stuffed_ = true; }
 
-PhilosopherStatus Philosopher::get_status() const {
-  return this->status_;
+PhilosopherStatus Philosopher::get_status() const { return this->status_; }
+
+void Philosopher::set_print_to_console(const bool print_to_console) {
+  print_to_console_ = print_to_console;
 }
 
 void Philosopher::print_status() const {
+  if (!print_to_console_) {
+    return;
+  }
+
   auto status = "";
   switch (status_) {
     case PhilosopherStatus::kThinking:
