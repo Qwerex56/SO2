@@ -47,13 +47,15 @@ void DiningPhilosophers::generate_chopsticks(const int count) {
 
 void DiningPhilosophers::generate_philosophers(const int count,
                                                std::mutex *global_mutex) {
-  philosophers_.resize(count);
+  philosophers_ = std::vector<Philosopher>(count);
 
   for (int i = 0; i < count; ++i) {
     auto *left_chopstick = &chopsticks_[i];
     auto *right_chopstick = &chopsticks_[(i + 1) % count];
 
-    philosophers_[i] =
-        Philosopher{i, left_chopstick, right_chopstick, global_mutex};
+    philosophers_[i].SetId(i);
+    philosophers_[i].SetRightFork(right_chopstick);
+    philosophers_[i].SetLeftFork(left_chopstick);
+    philosophers_[i].SetCoutMutex(global_mutex);
   }
 }

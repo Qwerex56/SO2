@@ -15,18 +15,15 @@ class Philosopher {
  public:
   Philosopher() = default;
   explicit Philosopher(const int id, Chopstick *left_fork,
-                       Chopstick *right_fork, std::mutex *mutex)
-      : id_(id),
-        left_fork_(left_fork),
-        right_fork_(right_fork),
-        cout_mutex_(mutex) {}
+                       Chopstick *right_fork, std::mutex *mutex);
 
   void start();
   void stop();
 
   void join() { thread_.join(); }
 
-  PhilosopherStatus get_status() const;
+  [[nodiscard]] PhilosopherStatus get_status() const;
+  [[nodiscard]] std::condition_variable* get_cv();
 
   static void set_print_to_console(bool print_to_console);
 
@@ -37,10 +34,20 @@ class Philosopher {
   bool stuffed_ = false;
   PhilosopherStatus status_ = PhilosopherStatus::kWaiting;
 
-  Chopstick *left_fork_ = nullptr;
   Chopstick *right_fork_ = nullptr;
+  Chopstick *left_fork_ = nullptr;
 
-  std::thread thread_;
+ public:
+  void SetId(int id);
+  void SetRightFork(Chopstick *right_fork);
+  void SetLeftFork(Chopstick *left_fork);
+  void SetCoutMutex(std::mutex *cout_mutex);
+
+ private:
+  std::thread thread_{};
+  std::condition_variable cv_{};
+
+  std::mutex cv_mutex_{};
   std::mutex *cout_mutex_ = nullptr;
 
   static std::chrono::seconds rand_time(int min = 1, int max = 4);
