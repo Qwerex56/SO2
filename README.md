@@ -28,3 +28,52 @@ Plik .exe jest uruchamiany z poziomu konsoli z odpowiednimi argumentami
 - *--no-terminal-out* - wyłącza komunikaty o stanie filozofów w konsoli
 #### Kompilacja z kodu źródłowego
 Program można skompilowac za pomocą CMake
+
+---
+
+# Aplikacja serwera chatu
+
+## Cel projektu
+Celem projektu było stworzenie serwera czatu oraz klienta czatu działających w języku C++, umożliwiających komunikację między wieloma użytkownikami. Aplikacja zapewnia:
+- Obsługę wielu klientów jednocześnie (wielowątkowość).
+- Przechowywanie historii czatu i jej wyświetlanie nowym użytkownikom.
+- Identyfikację użytkowników za pomocą nazwy użytkownika.
+
+## Wykorzystane technologie
+Aplikacja została napisana języku c++, a do komunikacji sieciowej wykorzystano gniazda TCP/IP (biblioteka WinSock2 dla Windows).  
+Wykorzystane technologie i mechanizmy:
+- Biblioteka WinSock2 – obsługa gniazd sieciowych.
+- Wielowątkowość (```std::thread```) – obsługa wielu klientów jednocześnie.
+- Synchronizacja (```std::mutex```) – zapewnienie bezpiecznego dostępu do zasobów.
+
+## Opis działania aplikacji
+
+### Serwer czatu
+1. Oczekuje na połączenia klientów.
+2. Po nawiązaniu połączenia użytkownik podaje nazwę użytkownika.
+3. Serwer wysyła historię czatu nowemu użytkownikowi.
+4. Klient może wysyłać wiadomości – użytkownik wysyła wiadomość na serwer, a serwer przekazuje ją do wszystkich użytkowników.
+5. Każda wiadomość zawiera datę i godzinę oraz nazwę nadawcy.
+6. Gdy użytkownik wpisze ```/exit```, zostaje rozłączony.
+
+### Klient czatu
+1. Łączy się z serwerem i podaje nazwę użytkownika.
+2. Odbiera historię czatu od serwera.
+3. Może wysyłać wiadomości do innych użytkowników.
+5. Wpisanie ```/exit``` powoduje zamknięcie połączenia.
+
+## Uruchomienie aplikacji
+### Serwer czatu:  
+1. Pobierz plik ```server.exe```.  
+2. Uruchom go – serwer oczekuje na klientów.  
+
+### Klient czatu:  
+1. Pobierz plik ```client.exe```.  
+2. Uruchom i podaj nazwę użytkownika.  
+3. Rozpocznij rozmowę, wpisując wiadomości.  
+4. Aby zakończyć, wpisz ```/exit```.  
+
+## Możliwe ulepszenia:  
+- Zapisywanie historii czatu do pliku – aby przetrwała restart serwera.  
+- Autoryzacja użytkowników – logowanie i hasła.  
+- Wsparcie dla Linuxa – dodanie obsługi ```sys/socket.h```.  
